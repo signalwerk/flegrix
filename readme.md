@@ -1,6 +1,13 @@
-#flegrix
+# flegrix
 A tiny grid system to work with flexbox.
 The system holds basically the following helpers;
+
+## variables
+The default settings for flegrix are the following;
+```SCSS
+$flegrix-grid-gutter: 2.5%; // gutter between columns.
+$flegrix-grid-cols: 12; // column-count
+```
 
 ## functions
 
