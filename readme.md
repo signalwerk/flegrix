@@ -2,6 +2,14 @@
 A tiny grid system to work with flexbox.
 The system holds basically the following helpers;
 
+## installation
+Run `npm install --save-dev flegrix` then include in your SCSS:
+
+```SCSS
+@import "~flegrix/flegrix.scss";
+```
+
+
 ## variables
 The default settings for flegrix are the following;
 ```SCSS
