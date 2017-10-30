@@ -12,7 +12,7 @@ $flegrix-grid-cols: 12 !default; // column-count
 @function parse($shorthand) {
 
   $col: $shorthand;
-  $context: $grid-cols;
+  $context: $flegrix-grid-cols;
 
   @if (index($shorthand, 'of') == 2) {
     $context: nth($shorthand, 3);
@@ -29,7 +29,7 @@ $flegrix-grid-cols: 12 !default; // column-count
   $col: nth($parsed, 1);
   $context: nth($parsed, 2);
 
-  @return $grid-gutter * (1 * $grid-cols / $context) * $col;
+  @return $flegrix-grid-gutter * (1 * $flegrix-grid-cols / $context) * $col;
 }
 
 
