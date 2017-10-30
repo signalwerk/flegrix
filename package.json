@@ -4,7 +4,9 @@
   "description": "tiny grid system for flexbox",
   "main": "flegrix.scss",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "next": "npm version patch & npm publish",
+    "publish": "npm publish"
   },
   "repository": {
     "type": "git",
