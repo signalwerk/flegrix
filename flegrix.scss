@@ -57,3 +57,55 @@ $flegrix-grid-cols: 12 !default; // column-count
   flex-basis: span($col);
   max-width: span($col);
 }
+
+
+
+@mixin container-background-grid($columns: 12) {
+  @include background-grid($columns)
+  background-size: 100% 100%;
+  background-position: center 0;
+  background-repeat: repeat-y;
+}
+
+
+@mixin background-grid-gradient($columns: 12) {
+  $transparent: rgba(0,0,0,0);
+  $color: rgba(255,0,0,0.07);
+  $x: 0;
+  $values: ($color 0);
+  @for $i from 1 through $columns {
+     @if $i != $columns{
+      $x: $x + span(1 of $columns);
+      $values: append($values, $color $x, comma);
+      $values: append($values, $transparent $x, comma);
+      $x: $x + gutter(1 of $columns);
+      $values: append($values, $transparent $x, comma);
+      $values: append($values, $color $x, comma);
+    }
+    @else {
+      $x: $x + span(1 of $columns);
+      $values: append($values, $color $x, comma);
+      $values: append($values, $transparent $x, comma);
+    }
+  }
+  background-image: linear-gradient(to right, #{$values});
+}
+
+
+
+@mixin background-grid($columns: 12) {
+
+    $color: rgba(255,0,0,0.07);
+    $x: 0;
+    $width: span(1 of $columns);
+
+    $svg: "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$color}'%3E";
+    @for $i from 1 through $columns {
+        $svg: $svg + "%3Crect x='#{$x}' width='#{$width}' height='100%'/%3E";
+        $x: $x + span(1 of $columns);
+        $x: $x + gutter(1 of $columns);
+    }
+
+    $svg: $svg + "%3C/svg%3E";
+    background-image: url($svg);
+}
