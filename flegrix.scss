@@ -1,0 +1,59 @@
+$flegrix-grid-gutter: 2.5% !default; // gutter between columns.
+$flegrix-grid-cols: 12 !default; // column-count
+
+@mixin container() {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+// parse(1)
+// parse(1 of 4)
+@function parse($shorthand) {
+
+  $col: $shorthand;
+  $context: $grid-cols;
+
+  @if (index($shorthand, 'of') == 2) {
+    $context: nth($shorthand, 3);
+    $col: nth($shorthand, 1);
+  }
+
+  @return $col $context;
+}
+
+// 3 * gutter() = gutter(3) = gutter(3 of 12)
+@function gutter($shorthand: 1) {
+
+  $parsed: parse($shorthand);
+  $col: nth($parsed, 1);
+  $context: nth($parsed, 2);
+
+  @return $grid-gutter * (1 * $grid-cols / $context) * $col;
+}
+
+
+// get the width in %
+// span(4) == span(4 of 12)
+@function span($shorthand) {
+
+  $parsed: parse($shorthand);
+  $col: nth($parsed, 1);
+  $context: nth($parsed, 2);
+
+  $totalColumnWidth: 100% - (gutter($context - 1 of $context));
+  $width: ($totalColumnWidth / $context * $col) + (gutter(($col - 1) of $context));
+  @return $width;
+}
+
+
+@mixin col(
+  $col,
+  $fg: 1,
+  $fs: 1
+){
+  flex-grow: $fg;
+  flex-shrink: $fs;
+  flex-basis: span($col);
+  max-width: span($col);
+}

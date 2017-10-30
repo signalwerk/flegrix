@@ -1,0 +1,23 @@
+{
+  "name": "flegrix",
+  "version": "0.1.0",
+  "description": "tiny grid system for flexbox",
+  "main": "flegrix.scss",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/signalwerk/flegrix.git"
+  },
+  "keywords": [
+    "flexbox",
+    "grid"
+  ],
+  "author": "Stefan Huber",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/signalwerk/flegrix/issues"
+  },
+  "homepage": "https://github.com/signalwerk/flegrix#readme"
+}
