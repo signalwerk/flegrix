@@ -58,39 +58,55 @@ $flegrix-grid-cols: 12 !default; // column-count
   max-width: span($col);
 }
 
-
-
 @mixin container-background-grid($columns: 12) {
-  @include background-grid($columns)
+  @include background-grid($columns);
   background-size: 100% 100%;
   background-position: center 0;
   background-repeat: repeat-y;
 }
 
-
-@mixin background-grid-gradient($columns: 12) {
-  $transparent: rgba(0,0,0,0);
-  $color: rgba(255,0,0,0.07);
-  $x: 0;
-  $values: ($color 0);
-  @for $i from 1 through $columns {
-     @if $i != $columns{
-      $x: $x + span(1 of $columns);
-      $values: append($values, $color $x, comma);
-      $values: append($values, $transparent $x, comma);
-      $x: $x + gutter(1 of $columns);
-      $values: append($values, $transparent $x, comma);
-      $values: append($values, $color $x, comma);
-    }
-    @else {
-      $x: $x + span(1 of $columns);
-      $values: append($values, $color $x, comma);
-      $values: append($values, $transparent $x, comma);
-    }
+// https://gist.github.com/B-iggy/14da053d2cebf92e1930
+// functions to urlencode the svg string
+@function flegrix-str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + flegrix-str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
   }
-  background-image: linear-gradient(to right, #{$values});
+  @return $string;
 }
 
+@function flegrix-url-encode($string) {
+  $map: (
+   "%": "%25",
+   "<": "%3C",
+   ">": "%3E",
+   " ": "%20",
+   "!": "%21",
+   "*": "%2A",
+   "'": "%27",
+   '"': "%22",
+   "(": "%28",
+   ")": "%29",
+   ";": "%3B",
+   ":": "%3A",
+   "@": "%40",
+   "&": "%26",
+   "=": "%3D",
+   "+": "%2B",
+   "$": "%24",
+   ",": "%2C",
+   "/": "%2F",
+   "?": "%3F",
+   "#": "%23",
+   "[": "%5B",
+   "]": "%5D"
+   );
+  $new: $string;
+  @each $search, $replace in $map {
+    $new: flegrix-str-replace($new, $search, $replace);
+  }
+  @return $new;
+}
 
 
 @mixin background-grid($columns: 12) {
@@ -99,13 +115,14 @@ $flegrix-grid-cols: 12 !default; // column-count
     $x: 0;
     $width: span(1 of $columns);
 
-    $svg: "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='#{$color}'%3E";
+    $svg: "<svg xmlns='http://www.w3.org/2000/svg' fill='#{$color}'>";
     @for $i from 1 through $columns {
-        $svg: $svg + "%3Crect x='#{$x}' width='#{$width}' height='100%'/%3E";
+        $svg: $svg + "<rect x='#{$x}' width='#{$width}' height='100%'/>";
         $x: $x + span(1 of $columns);
         $x: $x + gutter(1 of $columns);
     }
 
-    $svg: $svg + "%3C/svg%3E";
-    background-image: url($svg);
+    $svg: $svg + "</svg>";
+
+    background-image: url('data:image/svg+xml;charset=utf8,#{flegrix-url-encode($svg)}');
 }
