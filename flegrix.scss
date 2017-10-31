@@ -111,18 +111,31 @@ $flegrix-grid-cols: 12 !default; // column-count
 
 @mixin background-grid($columns: 12) {
 
-    $color: rgba(255,0,0,0.07);
-    $x: 0;
-    $width: span(1 of $columns);
+  $color: rgba(255,0,0,0.07);
+  $lineColor: rgba(128,0,0,0.05);
 
-    $svg: "<svg xmlns='http://www.w3.org/2000/svg' fill='#{$color}'>";
-    @for $i from 1 through $columns {
-        $svg: $svg + "<rect x='#{$x}' width='#{$width}' height='100%'/>";
-        $x: $x + span(1 of $columns);
-        $x: $x + gutter(1 of $columns);
+  $x: 0;
+  $width: span(1 of $columns);
+  $gutter: gutter(1 of $columns);
+
+  $style: "<#{'style'}><![CDATA["; // fix to have it run in codepen.io
+  $style: $style + "line {";
+  $style: $style + "  stroke: #{$lineColor};";
+  $style: $style + "  stroke-width: 1;";
+  $style: $style + "}";
+  $style: $style + "]]></style>";
+
+  $svg: "";
+
+  @for $i from 1 through $columns {
+    $svg: $svg + "<rect x='#{$x}' width='#{$width}' height='100%'/>";
+    $svg: $svg + "<line x1='#{$x + $width/2}' y1='0' x2='#{$x + $width/2}' y2='100%' />";
+    @if ($i != $columns) {
+      $x: $x + $width;
+      $svg: $svg + '<line x1="#{$x + $gutter/2}" y1="0" x2="#{$x + $gutter/2}" y2="100%" />';
+      $x: $x + $gutter;
     }
-
-    $svg: $svg + "</svg>";
-
-    background-image: url('data:image/svg+xml;charset=utf8,#{flegrix-url-encode($svg)}');
+  }
+  $svg: "<svg xmlns='http://www.w3.org/2000/svg' fill='#{$color}'>" + $style + $svg + "</svg>";
+  background-image: url('data:image/svg+xml;charset=utf8,#{flegrix-url-encode($svg)}');
 }
