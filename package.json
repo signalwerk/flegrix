@@ -1,6 +1,6 @@
 {
   "name": "flegrix",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "tiny grid system for flexbox",
   "main": "flegrix.scss",
   "scripts": {
