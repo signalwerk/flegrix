@@ -34,7 +34,7 @@ $flegrix-grid-settings: $flegrix-grid-default;
   $col: $shorthand;
   $context: map-get($flegrix-grid-settings, columns);
 
-  @if (index($shorthand, 'of') == 2) {
+  @if (index($shorthand, "of") == 2) {
     $context: nth($shorthand, 3);
     $col: nth($shorthand, 1);
   }
@@ -149,11 +149,11 @@ $flegrix-grid-settings: $flegrix-grid-default;
     @if ($i != $columns) {
       $x: $x + $width;
       @if(map-get($flegrix-grid-settings, debug-container-gutter-midline)) {
-        $svg: $svg + '<line x1="#{$x + $gutter/2}" y1="0" x2="#{$x + $gutter/2}" y2="100%" />';
+        $svg: $svg + "<line x1='#{$x + $gutter/2}' y1='0' x2='#{$x + $gutter/2}' y2='100%' />";
       }
       $x: $x + $gutter;
     }
   }
   $svg: "<svg xmlns='http://www.w3.org/2000/svg' fill='#{$color}'>" + $style + $svg + "</svg>";
-  background-image: url('data:image/svg+xml;charset=utf8,#{flegrix-url-encode($svg)}');
+  background-image: url("data:image/svg+xml;charset=utf8,#{flegrix-url-encode($svg)}");
 }
