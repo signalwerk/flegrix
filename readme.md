@@ -11,56 +11,57 @@ Run `npm install --save-dev flegrix` then include in your SCSS:
 
 
 ## variables
-The default settings for flegrix are the following;
+If you like to overwrite the default settings define a map called `$flegrix-grid`.
+
 ```SCSS
-$flegrix-grid-gutter: 2.5%; // gutter between columns.
-$flegrix-grid-cols: 12; // column-count
+$flegrix-grid: (
+  columns: 12, // column-count → default: 12
+  gutter: 3%, // gutter between columns → default: 3%
+  debug: false, // debug-mode → default: false
+  debug-container-column-background: true, // draw column in debug-mode → default: true
+  debug-container-column-midline: false, // draw column-midline in debug-mode → default: false
+  debug-container-gutter-midline: false, // draw gutter-midline in debug-mode → default: false
+);
 ```
 
 ## functions
 
 ### `span($columncount)`
+Returns the width of the column. `$columncount` is the number of columns to span.  
+`$columncount` can be an number (`1`, `2`, `3`, ...) or a number of columns in and a context of columns (`1 of 12`, `4 of 6`, ...).
+#### Example
 To set the `width` to three columns;
 ```SCSS
 width: span(3);
 ```
-or if you wanna wrap in different context:
+or in a nested container where the container is 4 columns wide
 ```SCSS
 width: span(3 of 4); // parent object = width: span(4);
 ```
 
-### `gutter($count)`
+### `gutter($context)`
+Returns the width of the gutter.
+#### Example
 To set a `padding-right` to the gutter-width;
 ```SCSS
 padding-right: gutter();
 ```
-or
+or in a nested container where the container is 4 columns wide
 ```SCSS
-padding-right: gutter(1 of 4);
+padding-right: gutter(4);
 ```
 
 ## mixins
 
 
-### `container()`
-Set the parent wrap to use flexbox.
+### `container($columncount)`
+Set the parent wrap to use flexbox. `$columncount` takes the default if not defined. the `$columncount` is only for debug purpose important.
+
 ```SCSS
 .wrap {
   @include container();
 }
 ```
-
-
-### `container-background-grid($columncount)`
-Draw a SVG as backgound image with the columns count.
-
-```SCSS
-.wrap {
-  @include container-background-grid(12);
-}
-```
-
-
 
 ### `col($count)`
 Set the column width with flexbox.

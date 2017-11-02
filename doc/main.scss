@@ -1,0 +1,39 @@
+
+$flegrix-grid: (
+  debug: true,
+  debug-container-column-midline: true, // draw column-midline in debug-mode → default: false
+  debug-container-gutter-midline: true, // draw gutter-midline in debug-mode → default: false
+);
+
+@import "../flegrix";
+
+.outter-wrap {
+  @include container(12);
+  background-color: #ffff5533;
+}
+
+.col-left {
+  @include col(8);
+}
+
+.col-right {
+  @include col(4);
+}
+
+.innter-wrap {
+  @include container(8);
+  background-color: #ffff5533;
+}
+
+.col-left-a {
+  @include col(2 of 8);
+}
+
+.col-left-b {
+  @include col(6 of 8);
+}
+
+div[class^='col-'] {
+  margin-top: 2rem;
+  background-color: rgba(255, 0, 102, 0.15);
+}
