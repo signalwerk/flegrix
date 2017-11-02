@@ -14,7 +14,7 @@ $flegrix-grid-settings: $flegrix-grid-default;
 }
 
 
-@mixin container($columncount) {
+@mixin container($columncount: 12) {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -43,14 +43,14 @@ $flegrix-grid-settings: $flegrix-grid-default;
 }
 
 // gutter() = gutter(12)
-@function gutter($context) {
+@function gutter($context: 12) {
   @return map-get($flegrix-grid-settings, gutter) * (1 * map-get($flegrix-grid-settings, columns) / $context);
 }
 
 
 // get the width in %
 // span(4) == span(4 of 12)
-@function span($shorthand) {
+@function span($shorthand: 1) {
 
   $parsed: flegrix-parse($shorthand);
   $col: nth($parsed, 1);
