@@ -120,6 +120,10 @@ $flegrix-grid-settings: $flegrix-grid-default;
 @mixin flegrix-background-grid($columns: 12) {
   $color: rgba(255,0,0,0.07);
   $lineColor: rgba(128,0,0,0.05);
+
+  $width: span(1 of $columns);
+  $gutter: gutter($columns);
+
   $style: "<#{'style'}><![CDATA["; // fix to have it run in codepen.io
   $style: $style + "line {";
   $style: $style + " stroke: #{$lineColor};";
@@ -131,8 +135,6 @@ $flegrix-grid-settings: $flegrix-grid-default;
   $style: $style + "}";
   $style: $style + "]]></style>";
   $x: 0;
-  $width: span(1 of $columns);
-  $gutter: gutter($columns);
   $svg: "";
   @for $i from 1 through $columns {
     // draw column
