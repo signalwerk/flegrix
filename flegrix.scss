@@ -128,13 +128,13 @@ $flegrix-grid-settings: $flegrix-grid-default;
   $style: $style + "line {";
   $style: $style + " stroke: #{$lineColor};";
   $style: $style + " stroke-width: 1;";
-  $style: $style + "}";
+  $style: $style + "} ";
   $style: $style + "rect {";
   $style: $style + " width: #{$width};";
   $style: $style + " height: 100%;";
   $style: $style + "}";
   $style: $style + "]]></style>";
-  $x: 0;
+  $x: 0%;
   $svg: "";
   @for $i from 1 through $columns {
     // draw column
