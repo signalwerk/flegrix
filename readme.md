@@ -8,8 +8,8 @@ The system holds basically the following helpers;
 @include col($count, $start: 1, $push: 0);
 
 // Functions
-span($columncount);
-gutter($context);
+$myColumnVar: span($columncount);
+$myGutterVar: gutter($context);
 ```
 
 ## Use (simple)
