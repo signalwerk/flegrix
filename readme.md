@@ -1,4 +1,4 @@
-# flegrix
+# Flegrix
 A tiny grid system to work with css-flexbox and css-grid.
 The system holds basically the following helpers;
 
@@ -9,10 +9,33 @@ The system holds basically the following helpers;
 
 // Functions
 span($columncount);
-gutter($context):
+gutter($context);
 ```
 
-## installation
+## Use
+
+```HTML
+<div class="container">
+  <div class="left">8 columns wide</div>
+  <div class="right">4 columns wide, start in column 9</div>
+</div>
+```
+
+```SCSS
+.container {
+  @include container();
+}
+
+.left {
+  @include col(8);
+}
+
+.right {
+  @include col(4, $start: 9);
+}
+```
+
+## Installation
 Run `npm install --save-dev flegrix` then include in your SCSS:
 
 ```SCSS
@@ -20,7 +43,7 @@ Run `npm install --save-dev flegrix` then include in your SCSS:
 ```
 
 
-## variables
+## Variables
 If you like to overwrite the default settings define a map called `$flegrix-grid`.
 
 ```SCSS
@@ -35,7 +58,7 @@ $flegrix-grid: (
 );
 ```
 
-## mixins
+## Mixins
 
 
 ### `container($columncount)`
@@ -61,7 +84,7 @@ Set the column width with flexbox and grid. `$start` defines in what column the 
 ```
 
 
-## functions
+## Functions
 
 ### `span($columncount)`
 Returns the width of the column. `$columncount` is the number of columns to span.  
@@ -87,6 +110,3 @@ or in a nested container where the container is 4 columns wide use `$context`.
 ```SCSS
 padding-right: gutter(4);
 ```
-
-### ToDo
-* Add more Documentation
