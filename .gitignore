@@ -2,3 +2,4 @@
 /node_modules
 /doc/public/main.css
 /doc/public/main.min.css
+travis/.ssh/id_rsa

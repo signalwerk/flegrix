@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "6"
+install:
+  - npm install
+script:
+  - bash ./travis/gh-pages.sh
+env:
+  global:
+  - ENCRYPTION_LABEL: "827ecb61d9cd"
+  - COMMIT_AUTHOR_EMAIL: "sh@signalwerk.ch"
+  - DEPLOY_DIR: "doc"
+  - SOURCE_BRANCH: "master"
+  - TARGET_BRANCH: "gh-pages"
