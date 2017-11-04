@@ -1,0 +1,23 @@
+{
+  "name": "flegrix-doc",
+  "version": "1.0.0",
+  "description": "Documentation for flegrix",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "./node_modules/.bin/gulp"
+  },
+  "author": "Stefan Huber (Signalwekr GmbH)",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-changed": "^1.3.0",
+    "gulp-cssnano": "^2.1.0",
+    "gulp-ignore": "^2.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.1.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^2.0.0",
+    "normalize.css": "^4.2.0"
+  }
+}

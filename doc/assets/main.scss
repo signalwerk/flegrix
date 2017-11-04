@@ -1,6 +1,7 @@
 
 $flegrix-grid: (
   debug: true,
+  // debug-display: 'grid',
   debug-container-column-midline: true, // draw column-midline in debug-mode → default: false
   debug-container-gutter-midline: true, // draw gutter-midline in debug-mode → default: false
 );
@@ -17,7 +18,7 @@ $flegrix-grid: (
 }
 
 .col-right {
-  @include col(4);
+  @include col(4, $start: 9);
 }
 
 .innter-wrap {
@@ -30,7 +31,10 @@ $flegrix-grid: (
 }
 
 .col-left-b {
-  @include col(6 of 8);
+  @include col(6 of 8, $start: 3);
+}
+.col-left-b-push {
+  @include col(6 of 8, $start: 3, $push: 2);
 }
 
 div[class^='col-'] {

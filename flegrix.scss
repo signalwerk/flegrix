@@ -2,6 +2,7 @@ $flegrix-grid-default: (
   columns: 12, // column-count → default: 12
   gutter: 3%, // gutter between columns → default: 3%
   debug: false, // debug-mode → default: false
+  debug-display: 'flex', // shows in debug-mode with displa flex|grid → default: flex
   debug-container-column-background: true, // draw column in debug-mode → default: true
   debug-container-column-midline: false, // draw column-midline in debug-mode → default: false
   debug-container-gutter-midline: false, // draw gutter-midline in debug-mode → default: false
@@ -13,14 +14,55 @@ $flegrix-grid-settings: $flegrix-grid-default;
   $flegrix-grid-settings: map-merge($flegrix-grid-default, $flegrix-grid);
 }
 
-
-@mixin container($columncount: 12) {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+@mixin felxbox() {
+  @if(map-get($flegrix-grid-settings, debug)) {
+    @if(map-get($flegrix-grid-settings, debug-display) == 'flex') {
+      @content;
+    }
+  } @else {
+    @supports not (display: grid) {
+      @content;
+    }
+  }
+}
+@mixin grid() {
 
   @if(map-get($flegrix-grid-settings, debug)) {
-    @include flegrix-background-grid($columncount);
+    @if(map-get($flegrix-grid-settings, debug-display) != 'flex') {
+      @content;
+    }
+  } @else {
+    @supports (display: grid) {
+      @content;
+    }
+  }
+}
+
+
+@mixin container($count: null) {
+
+  $columncount: map-get($flegrix-grid-settings, columns);
+  $gutter: map-get($flegrix-grid-settings, gutter);
+
+  @if ($count) {
+    $gutter: $gutter * $columncount / $count;
+    $columncount: $count;
+  }
+
+  @include grid() {
+    display: grid;
+    grid-template-columns: repeat($columncount, 1fr);
+    grid-column-gap: $gutter;
+  }
+
+  @include felxbox() {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  @if(map-get($flegrix-grid-settings, debug)) {
+    background-image: url("data:image/svg+xml;charset=utf8,#{flegrix-url-encode(flegrix-background-svg($columncount))}");
     background-size: 100% 100%;
     background-position: center 0;
     background-repeat: repeat-y;
@@ -43,8 +85,15 @@ $flegrix-grid-settings: $flegrix-grid-default;
 }
 
 // gutter() = gutter(12)
-@function gutter($context: 12) {
-  @return map-get($flegrix-grid-settings, gutter) * (1 * map-get($flegrix-grid-settings, columns) / $context);
+@function gutter($count: null) {
+
+    $context: map-get($flegrix-grid-settings, columns);
+
+    @if ($count) {
+      $context: $count;
+    }
+
+  @return map-get($flegrix-grid-settings, gutter) * map-get($flegrix-grid-settings, columns) / $context;
 }
 
 
@@ -62,15 +111,43 @@ $flegrix-grid-settings: $flegrix-grid-default;
 }
 
 
+@mixin push($shorthand: 1) {
+    $parsed: flegrix-parse($shorthand);
+    $col: nth($parsed, 1);
+    $context: nth($parsed, 2);
+    margin-left: span($shorthand) + gutter($context);
+}
+
+
 @mixin col(
-  $col,
+  $width,
+  $start: 1,
+  $push: null,
   $fg: 1,
   $fs: 1
 ){
-  flex-grow: $fg;
-  flex-shrink: $fs;
-  flex-basis: span($col);
-  max-width: span($col);
+
+  $parsed: flegrix-parse($width);
+  $col: nth($parsed, 1);
+  $context: nth($parsed, 2);
+
+  @include grid() {
+    grid-column-start: $start;
+    grid-column-end: $start + $col;
+  }
+
+  @include felxbox() {
+    flex-grow: $fg;
+    flex-shrink: $fs;
+    flex-basis: span($width);
+    max-width: span($width);
+    @if ($push){
+      @include push($push of $context);
+    }
+  }
+
+
+
 }
 
 
@@ -86,30 +163,25 @@ $flegrix-grid-settings: $flegrix-grid-default;
 
 @function flegrix-url-encode($string) {
   $map: (
-   "%": "%25",
-   "<": "%3C",
-   ">": "%3E",
-   " ": "%20",
-   "!": "%21",
-   "*": "%2A",
-   "'": "%27",
-   '"': "%22",
-   "(": "%28",
-   ")": "%29",
-   ";": "%3B",
-   ":": "%3A",
-   "@": "%40",
-   "&": "%26",
-   "=": "%3D",
-   "+": "%2B",
-   "$": "%24",
-   ",": "%2C",
-   "/": "%2F",
-   "?": "%3F",
-   "#": "%23",
-   "[": "%5B",
-   "]": "%5D"
-   );
+    "%": "%25",
+    " ": "%20",
+    "!": "%21",
+    "'": "%27",
+    "(": "%28",
+    ")": "%29",
+    ",": "%2C",
+    "/": "%2F",
+    ":": "%3A",
+    ";": "%3B",
+    "<": "%3C",
+    "=": "%3D",
+    ">": "%3E",
+    "[": "%5B",
+    "]": "%5D"
+    // "*": "%2A", '"': "%22", "#": "%23", "$": "%24",
+    // "&": "%26", "+": "%2B", "?": "%3F", "@": "%40",
+  );
+
   $new: $string;
   @each $search, $replace in $map {
     $new: flegrix-str-replace($new, $search, $replace);
@@ -117,7 +189,7 @@ $flegrix-grid-settings: $flegrix-grid-default;
   @return $new;
 }
 
-@mixin flegrix-background-grid($columns: 12) {
+@function flegrix-background-svg($columns) {
   $color: rgba(255,0,0,0.07);
   $lineColor: rgba(128,0,0,0.05);
 
@@ -129,17 +201,13 @@ $flegrix-grid-settings: $flegrix-grid-default;
   $style: $style + " stroke: #{$lineColor};";
   $style: $style + " stroke-width: 1;";
   $style: $style + "} ";
-  $style: $style + "rect {";
-  $style: $style + " width: #{$width};";
-  $style: $style + " height: 100%;";
-  $style: $style + "}";
   $style: $style + "]]></style>";
   $x: 0%;
   $svg: "";
   @for $i from 1 through $columns {
     // draw column
     @if(map-get($flegrix-grid-settings, debug-container-column-background)){
-      $svg: $svg + "<rect x='#{$x}' />";
+      $svg: $svg + "<rect x='#{$x}' width='#{$width}' height='100%' />";
     }
     // draw midline of column
     @if(map-get($flegrix-grid-settings, debug-container-column-midline)) {
@@ -155,5 +223,5 @@ $flegrix-grid-settings: $flegrix-grid-default;
     }
   }
   $svg: "<svg xmlns='http://www.w3.org/2000/svg' fill='#{$color}'>" + $style + $svg + "</svg>";
-  background-image: url("data:image/svg+xml;charset=utf8,#{flegrix-url-encode($svg)}");
+  @return $svg;
 }
