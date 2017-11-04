@@ -44,8 +44,10 @@ gutter($context);
     <!-- 12 column container -->
     <div class="left-A">4 columns wide in a 8 columns container</div>
     <div class="left-B">4 columns wide in a 8 columns container</div>
+
     <div class="left-B-push">4 columns wide in a 8 columns container, push 4 columns</div>
   </div>
+
   <div class="right">4 columns wide, start in column 9</div>
 </div>
 ```
