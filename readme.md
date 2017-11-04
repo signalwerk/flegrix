@@ -1,6 +1,16 @@
 # flegrix
-A tiny grid system to work with flexbox.
+A tiny grid system to work with css-flexbox and css-grid.
 The system holds basically the following helpers;
+
+```SCSS
+// mixins
+@include container($columncount);
+@include col($count, $start: 1, $push: 0);
+
+// Functions
+span($columncount);
+gutter($context):
+```
 
 ## installation
 Run `npm install --save-dev flegrix` then include in your SCSS:
@@ -23,33 +33,6 @@ $flegrix-grid: (
   debug-container-column-midline: false, // draw column-midline in debug-mode → default: false
   debug-container-gutter-midline: false, // draw gutter-midline in debug-mode → default: false
 );
-```
-
-## functions
-
-### `span($columncount)`
-Returns the width of the column. `$columncount` is the number of columns to span.  
-`$columncount` can be an number (`1`, `2`, `3`, ...) or a number of columns in and a context of columns (`1 of 12`, `4 of 6`, ...).
-#### Example
-To set the `width` to three columns;
-```SCSS
-width: span(3);
-```
-or in a nested container where the container is 4 columns wide
-```SCSS
-width: span(3 of 4); // parent object = width: span(4);
-```
-
-### `gutter($context)`
-Returns the width of the gutter in a `$context`.
-#### Example
-To set a `padding-right` to the gutter-width;
-```SCSS
-padding-right: gutter();
-```
-or in a nested container where the container is 4 columns wide use `$context`.
-```SCSS
-padding-right: gutter(4);
 ```
 
 ## mixins
@@ -77,6 +60,33 @@ Set the column width with flexbox and grid. `$start` defines in what column the 
 }
 ```
 
+
+## functions
+
+### `span($columncount)`
+Returns the width of the column. `$columncount` is the number of columns to span.  
+`$columncount` can be an number (`1`, `2`, `3`, ...) or a number of columns in and a context of columns (`1 of 12`, `4 of 6`, ...).
+#### Example
+To set the `width` to three columns;
+```SCSS
+width: span(3);
+```
+or in a nested container where the container is 4 columns wide
+```SCSS
+width: span(3 of 4); // parent object = width: span(4);
+```
+
+### `gutter($context)`
+Returns the width of the gutter in a `$context`.
+#### Example
+To set a `padding-right` to the gutter-width;
+```SCSS
+padding-right: gutter();
+```
+or in a nested container where the container is 4 columns wide use `$context`.
+```SCSS
+padding-right: gutter(4);
+```
 
 ### ToDo
 * Add more Documentation
