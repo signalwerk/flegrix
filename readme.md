@@ -12,10 +12,11 @@ span($columncount);
 gutter($context);
 ```
 
-## Use
+## Use (simple)
 
 ```HTML
 <div class="container">
+  12 column container
   <div class="left">8 columns wide</div>
   <div class="right">4 columns wide, start in column 9</div>
 </div>
@@ -33,6 +34,39 @@ gutter($context);
 .right {
   @include col(4, $start: 9);
 }
+```
+
+## Use (complex)
+
+```HTML
+<div class="container">
+  <div class="left complex">
+    12 column container
+    <div class="left-A">4 columns wide in a 8 columns container</div>
+    <div class="left-B">4 columns wide in a 8 columns container</div>
+    <div class="left-B-push">4 columns wide in a 8 columns container, push 4 columns</div>
+  </div>
+  <div class="right">4 columns wide, start in column 9</div>
+</div>
+```
+
+```SCSS
+.complex {
+  @include container(8);
+}
+
+.left-A {
+  @include col(4 of 8);
+}
+
+.left-B {
+  @include col(4 of 8, $start: 5);
+}
+
+.left-B-push {
+  @include col(4 of 8, $start: 5, $push: 4);
+}
+
 ```
 
 ## Installation
