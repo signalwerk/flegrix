@@ -1,5 +1,4 @@
 /npm-debug.log
 /node_modules
-/doc/public/main.css
-/doc/public/main.min.css
+/public
 travis/.ssh/id_rsa

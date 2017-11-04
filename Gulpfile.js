@@ -5,17 +5,17 @@ const autoprefixer = require('gulp-autoprefixer');
 const rename = require('gulp-rename');
 const cssnano = require('gulp-cssnano');
 
-var base = './doc/';
+var base = './';
 
-var input = base + 'assets/main.scss';
-var observe = base + '../**/*.scss';
+var input = base + 'doc/main.scss';
+var html = base + 'doc/index.html';
+var observe = [base + '**/*.scss', html];
 var output = base + '/public';
 
 var sassOptions = {
   errLogToConsole: true,
   outputStyle: 'expanded'
 };
-
 
 gulp.task('sass', function () {
   return gulp
@@ -42,12 +42,11 @@ gulp.task('sass', function () {
 });
 
 
-
 gulp.task('watch', function() {
   return gulp
     // Watch the input folder for change,
     // and run `sass` task when something happens
-    .watch(observe, ['sass'])
+    .watch(observe, ['sass', 'copy'])
     // When there is a change,
     // log a message in the console
     .on('change', function(event) {
@@ -56,6 +55,10 @@ gulp.task('watch', function() {
 });
 
 
+gulp.task('copy', function () {
+    gulp.src(html)
+        .pipe(gulp.dest(output));
+});
 
-gulp.task('default', ['sass', 'watch' /*, possible other tasks... */]);
-gulp.task('build', ['sass', /*, possible other tasks... */]);
+gulp.task('default', ['sass', 'watch', 'copy' /*, possible other tasks... */]);
+gulp.task('build', ['sass', 'copy' /*, possible other tasks... */]);
