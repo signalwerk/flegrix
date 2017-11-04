@@ -6,7 +6,7 @@ $flegrix-grid: (
   debug-container-gutter-midline: true, // draw gutter-midline in debug-mode → default: false
 );
 
-@import "../flegrix";
+@import "../../flegrix";
 
 .outter-wrap {
   @include container(12);

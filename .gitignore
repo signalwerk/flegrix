@@ -1,2 +1,4 @@
 /npm-debug.log
-/doc/node_modules
+/node_modules
+/doc/public/main.css
+/doc/public/main.min.css

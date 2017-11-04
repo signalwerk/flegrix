@@ -4,10 +4,8 @@ const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const rename = require('gulp-rename');
 const cssnano = require('gulp-cssnano');
-const ignore = require('gulp-ignore');
 
-
-var base = './';
+var base = './doc/';
 
 var input = base + 'assets/main.scss';
 var observe = base + '../**/*.scss';
