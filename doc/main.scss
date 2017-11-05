@@ -8,7 +8,6 @@ $flegrix-grid: (
 @import "../flegrix";
 
 
-
 // Use (simple)
 
 .container {
@@ -16,11 +15,11 @@ $flegrix-grid: (
 }
 
 .left {
-  @include col(8);
+  @include col(1 to 8);
 }
 
 .right {
-  @include col(4, $start: 9);
+  @include col(9 to 12);
 }
 
 // Use (complex)
@@ -30,15 +29,15 @@ $flegrix-grid: (
 }
 
 .left-A {
-  @include col(4 of 8);
+  @include col(1 to 4 of 8);
 }
 
 .left-B {
-  @include col(4 of 8, $start: 5);
+  @include col(5 to 8 of 8);
 }
 
 .left-B-push {
-  @include col(4 of 8, $start: 5, $push: 4);
+  @include col(5 to 8 of 8, $push: 4);
 }
 
 

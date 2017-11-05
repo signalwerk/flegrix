@@ -69,19 +69,39 @@ $flegrix-grid-settings: $flegrix-grid-default;
   }
 }
 
-// flegrix-parse(1)
-// flegrix-parse(1 of 4)
+// return from a shorthand tree values; from, to, context
+
+// flegrix-parse(1) ==> $from: 1, $to: 1, $context: 12 (flegrix-grid setting)
+// flegrix-parse(1 of 4) ==> $from: 1, $to: 1, $context: 4
+// flegrix-parse(1 to 2) ==> $from: 1, $to: 2, $context: 12 (flegrix-grid setting)
+// flegrix-parse(1 to 2 of 4) ==> $from: 1, $to: 2, $context: 4
 @function flegrix-parse($shorthand) {
 
-  $col: $shorthand;
+  $from: 1;
+  $to: 1;
   $context: map-get($flegrix-grid-settings, columns);
 
-  @if (index($shorthand, "of") == 2) {
-    $context: nth($shorthand, 3);
-    $col: nth($shorthand, 1);
+  @if (length($shorthand) == 1) {
+    $to: $shorthand;
   }
 
-  @return $col $context;
+  @if (length($shorthand) == 3 and index($shorthand, "of") == 2) {
+      $to: nth($shorthand, 1);
+      $context: nth($shorthand, 3);
+  }
+
+  @if (length($shorthand) == 3 and index($shorthand, "to") == 2) {
+      $from: nth($shorthand, 1);
+      $to: nth($shorthand, 3);
+  }
+
+  @if (length($shorthand) == 5 and index($shorthand, "to") == 2 and index($shorthand, "of") == 4) {
+      $from: nth($shorthand, 1);
+      $to: nth($shorthand, 3);
+      $context: nth($shorthand, 5);
+  }
+
+  @return $from $to $context;
 }
 
 // gutter() = gutter(12)
@@ -98,56 +118,58 @@ $flegrix-grid-settings: $flegrix-grid-default;
 
 
 // get the width in %
-// span(4) == span(4 of 12)
+// span(4) == span(1 to 4 of 12)
 @function span($shorthand: 1) {
 
   $parsed: flegrix-parse($shorthand);
-  $col: nth($parsed, 1);
-  $context: nth($parsed, 2);
+  $from: nth($parsed, 1);
+  $to: nth($parsed, 2);
+  $context: nth($parsed, 3);
+
+  $colCount: $to - $from + 1;
 
   $totalColumnWidth: 100% - (gutter($context) * ($context - 1));
-  $width: ($totalColumnWidth / $context * $col) + (gutter($context) * ($col - 1));
+  $width: ($totalColumnWidth / $context * $colCount) + (gutter($context) * ($colCount - 1));
   @return $width;
 }
 
-
+// push(4) == push(4 of 12)
 @mixin push($shorthand: 1) {
-    $parsed: flegrix-parse($shorthand);
-    $col: nth($parsed, 1);
-    $context: nth($parsed, 2);
-    margin-left: span($shorthand) + gutter($context);
+
+  $parsed: flegrix-parse($shorthand);
+  $context: nth($parsed, 3);
+
+  margin-left: span($shorthand) + gutter($context);
 }
 
 
 @mixin col(
-  $width,
-  $start: 1,
+  $shorthand: 1,
   $push: null,
   $fg: 1,
   $fs: 1
 ){
 
-  $parsed: flegrix-parse($width);
-  $col: nth($parsed, 1);
-  $context: nth($parsed, 2);
+  $parsed: flegrix-parse($shorthand);
+  $from: nth($parsed, 1);
+  $to: nth($parsed, 2);
+  $context: nth($parsed, 3);
 
   @include grid() {
-    grid-column-start: $start;
-    grid-column-end: $start + $col;
+    grid-column-start: $from;
+    grid-column-end: $to;
   }
 
   @include felxbox() {
     flex-grow: $fg;
     flex-shrink: $fs;
-    flex-basis: span($width);
-    max-width: span($width);
+    flex-basis: span($shorthand);
+    max-width: span($shorthand);
     @if ($push){
+      content: "push";
       @include push($push of $context);
     }
   }
-
-
-
 }
 
 

@@ -5,7 +5,7 @@ The system holds basically the following helpers;
 ```SCSS
 // mixins
 @include container($columncount);
-@include col($count, $start: 1, $push: 0);
+@include col($columncount, $push: 0);
 
 // Functions
 $myColumnVar: span($columncount);
@@ -28,11 +28,11 @@ $myGutterVar: gutter($context);
 }
 
 .left {
-  @include col(8);
+  @include col(1 to 8);
 }
 
 .right {
-  @include col(4, $start: 9);
+  @include col(9 to 12);
 }
 ```
 
@@ -58,17 +58,16 @@ $myGutterVar: gutter($context);
 }
 
 .left-A {
-  @include col(4 of 8);
+  @include col(1 to 4 of 8);
 }
 
 .left-B {
-  @include col(4 of 8, $start: 5);
+  @include col(5 to 8 of 8);
 }
 
 .left-B-push {
-  @include col(4 of 8, $start: 5, $push: 4);
+  @include col(5 to 8 of 8, $push: 4);
 }
-
 ```
 
 ## Installation
@@ -79,7 +78,7 @@ Run `npm install --save-dev flegrix` then include in your SCSS:
 ```
 
 
-## Variables
+## Settings
 If you like to overwrite the default settings define a map called `$flegrix-grid`.
 
 ```SCSS
@@ -106,16 +105,16 @@ Set the parent wrap to use flexbox. `$columncount` takes the default if not defi
 }
 ```
 
-### `col($count, $start: 1, $push: 0)`
-Set the column width with flexbox and grid. `$start` defines in what column the grid starts (necessary for grid) and `$push` adds a `margin-left` to the column (necessary if in flexbox the width is not already used before the column).
+### `col($columncount, $push: 0)`
+Set the column width with flexbox and grid. `$columncount` defines in what column the grid starts (necessary for grid) and `$push` adds a `margin-left` to the column (necessary if in flexbox the width is not already used before the column).
 
 ```SCSS
 .col4of12 {
-  @include col(4);
+  @include col(4); // == @include col(1 zo 4);
 }
 
 .col8of12 {
-  @include col(8, $start: 5);
+  @include col(5 to 12);
 }
 ```
 
@@ -132,7 +131,7 @@ width: span(3);
 ```
 or in a nested container where the container is 4 columns wide
 ```SCSS
-width: span(3 of 4); // parent object = width: span(4);
+width: span(1 to 3 of 4); // parent object = width: span(4);
 ```
 
 ### `gutter($context)`
