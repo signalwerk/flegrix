@@ -157,7 +157,7 @@ $flegrix-grid-settings: $flegrix-grid-default;
 
   @include grid() {
     grid-column-start: $from;
-    grid-column-end: $to;
+    grid-column-end: $to + 1;
   }
 
   @include felxbox() {

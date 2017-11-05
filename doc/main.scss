@@ -53,6 +53,10 @@ $flegrix-grid: (
   background-color: rgba(102, 102, 102, 0.15);
 }
 
+.complex .info {
+  @include col(8 of 8);
+}
+
 .left, .right {
   margin-top: 2rem;
   background-color: rgba(255, 0, 102, 0.15);
