@@ -1,5 +1,7 @@
 # Flegrix
-A tiny grid system to work with css-flexbox and css-grid.
+A tiny grid system to work with css-grid. By default it also includes a flexbox fallback for IE10+ and other browsers not supporting css-grid.
+
+
 The system holds basically the following helpers;
 
 ```SCSS
@@ -85,6 +87,8 @@ If you like to overwrite the default settings define a map called `$flegrix-grid
 $flegrix-grid: (
   columns: 12, // column-count → default: 12
   gutter: 3%, // gutter between columns → default: 3%
+  IE-flexbox-fallback: true, // flexbox fallback for IE10+ → default: true
+  flexbox-fallback: true, // flexbox fallback for other browsers than IE10+ → default: true
   debug: false, // debug-mode → default: false
   debug-display: 'flex', // shows in debug-mode with displa flex|grid → default: flex
   debug-container-column-background: true, // draw column in debug-mode → default: true

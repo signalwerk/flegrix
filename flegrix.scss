@@ -1,6 +1,8 @@
 $flegrix-grid-default: (
   columns: 12, // column-count → default: 12
   gutter: 3%, // gutter between columns → default: 3%
+  IE-flexbox-fallback: true, // flexbox fallback for IE10+ → default: true
+  flexbox-fallback: true, // flexbox fallback for other browsers than IE10+ → default: true
   debug: false, // debug-mode → default: false
   debug-display: 'flex', // shows in debug-mode with displa flex|grid → default: flex
   debug-container-column-background: true, // draw column in debug-mode → default: true
@@ -15,13 +17,23 @@ $flegrix-grid-settings: $flegrix-grid-default;
 }
 
 @mixin felxbox() {
+  // IE10+ hack
+  @if(map-get($flegrix-grid-settings, IE-flexbox-fallback)) {
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    // IE10+ specific styles go here
+      @content;
+    }
+  }
+
   @if(map-get($flegrix-grid-settings, debug)) {
     @if(map-get($flegrix-grid-settings, debug-display) == 'flex') {
       @content;
     }
   } @else {
-    @supports not (display: grid) {
-      @content;
+    @if(map-get($flegrix-grid-settings, flexbox-fallback)) {
+      @supports not (display: grid) {
+        @content;
+      }
     }
   }
 }
