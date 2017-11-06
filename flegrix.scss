@@ -16,7 +16,7 @@ $flegrix-grid-settings: $flegrix-grid-default;
   $flegrix-grid-settings: map-merge($flegrix-grid-default, $flegrix-grid);
 }
 
-@mixin felxbox() {
+@mixin flegrix-felxbox() {
   // IE10+ hack
   @if(map-get($flegrix-grid-settings, IE-flexbox-fallback)) {
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
@@ -37,7 +37,7 @@ $flegrix-grid-settings: $flegrix-grid-default;
     }
   }
 }
-@mixin grid() {
+@mixin flegrix-grid() {
 
   @if(map-get($flegrix-grid-settings, debug)) {
     @if(map-get($flegrix-grid-settings, debug-display) != 'flex') {
@@ -61,19 +61,20 @@ $flegrix-grid-settings: $flegrix-grid-default;
     $columncount: $count;
   }
 
-  @include grid() {
+  @include flegrix-grid() {
     display: grid;
     grid-template-columns: repeat($columncount, 1fr);
     grid-column-gap: $gutter;
   }
 
-  @include felxbox() {
+  @include flegrix-felxbox() {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
   }
 
   @if(map-get($flegrix-grid-settings, debug)) {
+    @include flegrix-background-gradient($columncount); // hack for IE and edge
     background-image: url("data:image/svg+xml;charset=utf8,#{flegrix-url-encode(flegrix-background-svg($columncount))}");
     background-size: 100% 100%;
     background-position: center 0;
@@ -145,8 +146,8 @@ $flegrix-grid-settings: $flegrix-grid-default;
   @return $width;
 }
 
-// push(4) == push(4 of 12)
-@mixin push($shorthand: 1) {
+// flegrix-push(4) == flegrix-push(4 of 12)
+@mixin flegrix-push($shorthand: 1) {
 
   $parsed: flegrix-parse($shorthand);
   $context: nth($parsed, 3);
@@ -167,19 +168,20 @@ $flegrix-grid-settings: $flegrix-grid-default;
   $to: nth($parsed, 2);
   $context: nth($parsed, 3);
 
-  @include grid() {
+  @include flegrix-grid() {
     grid-column-start: $from;
     grid-column-end: $to + 1;
   }
 
-  @include felxbox() {
+  @include flegrix-felxbox() {
     flex-grow: $fg;
     flex-shrink: $fs;
     flex-basis: span($shorthand);
     max-width: span($shorthand);
     @if ($push){
-      content: "push";
-      @include push($push of $context);
+      @if(map-get($flegrix-grid-settings, flexbox-fallback)) {
+        @include flegrix-push($push of $context);
+      }
     }
   }
 }
@@ -222,6 +224,32 @@ $flegrix-grid-settings: $flegrix-grid-default;
   }
   @return $new;
 }
+
+
+@mixin flegrix-background-gradient($columns) {
+  $transparent: rgba(0,0,0,0);
+  $color: rgba(255,0,0,0.07);
+  $x: 0;
+  $values: ($color 0);
+  @for $i from 1 through $columns {
+     @if $i != $columns{
+      $x: $x + span(1 of $columns);
+      $values: append($values, $color $x, comma);
+      $values: append($values, $transparent $x, comma);
+      $x: $x + gutter($columns);
+      $values: append($values, $transparent $x, comma);
+      $values: append($values, $color $x, comma);
+    }
+    @else {
+      $x: $x + span(1 of $columns);
+      $values: append($values, $color $x, comma);
+      $values: append($values, $transparent $x, comma);
+    }
+  }
+  background-image: linear-gradient(to right, #{$values});
+}
+
+
 
 @function flegrix-background-svg($columns) {
   $color: rgba(255,0,0,0.07);

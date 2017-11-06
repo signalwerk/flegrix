@@ -149,3 +149,8 @@ or in a nested container where the container is 4 columns wide use `$context`.
 ```SCSS
 padding-right: gutter(4);
 ```
+
+
+
+### Status
+[![Build Status](https://travis-ci.org/signalwerk/flegrix.svg?branch=master)](https://travis-ci.org/signalwerk/flegrix)
