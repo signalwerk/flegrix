@@ -234,11 +234,12 @@ $flegrix-grid-settings: $flegrix-grid-default;
   @for $i from 1 through $columns {
      @if $i != $columns{
       $x: $x + span(1 of $columns);
-      $values: append($values, $color $x, comma);
-      $values: append($values, $transparent $x, comma);
+
+      $values: $values + ", #{$color} #{$x}";
+      $values: $values + ", #{$transparent} #{$x}";
       $x: $x + gutter($columns);
-      $values: append($values, $transparent $x, comma);
-      $values: append($values, $color $x, comma);
+      $values: $values + ", #{$transparent} #{$x}";
+      $values: $values + ", #{$color} #{$x}";
     }
     @else {
       $x: $x + span(1 of $columns);
