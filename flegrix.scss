@@ -74,8 +74,11 @@ $flegrix-grid-settings: $flegrix-grid-default;
   }
 
   @if(map-get($flegrix-grid-settings, debug)) {
-    @include flegrix-background-gradient($columncount); // hack for IE and edge
     background-image: url("data:image/svg+xml;charset=utf8,#{flegrix-url-encode(flegrix-background-svg($columncount))}");
+    // IE10+
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+      @include flegrix-background-gradient($columncount); // hack for IE and edge
+    }
     background-size: 100% 100%;
     background-position: center 0;
     background-repeat: repeat-y;
