@@ -16,68 +16,63 @@ $flegrix-grid-settings: $flegrix-grid-default;
   $flegrix-grid-settings: map-merge($flegrix-grid-default, $flegrix-grid);
 }
 
+
 @mixin flegrix-felxbox() {
   // IE10+ hack
   @if(map-get($flegrix-grid-settings, IE-flexbox-fallback)) {
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-    // IE10+ specific styles go here
+     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none){
+      // IE10+ specific styles go here
       @content;
     }
   }
-
   @if(map-get($flegrix-grid-settings, debug)) {
-    @if(map-get($flegrix-grid-settings, debug-display) == 'flex') {
+     @if(map-get($flegrix-grid-settings, debug-display) == 'flex'){
       @content;
     }
-  } @else {
-    @if(map-get($flegrix-grid-settings, flexbox-fallback)) {
+  }
+  @else {
+     @if(map-get($flegrix-grid-settings, flexbox-fallback)){
       @supports not (display: grid) {
-        @content;
+         @content;
       }
     }
   }
 }
 @mixin flegrix-grid() {
-
-  @if(map-get($flegrix-grid-settings, debug)) {
+   @if(map-get($flegrix-grid-settings, debug)){
     @if(map-get($flegrix-grid-settings, debug-display) != 'flex') {
-      @content;
+       @content;
     }
-  } @else {
-    @supports (display: grid) {
+  }
+  @else {
+     @supports (display: grid){
       @content;
     }
   }
 }
 
-
 @mixin container($count: null) {
-
   $columncount: map-get($flegrix-grid-settings, columns);
   $gutter: map-get($flegrix-grid-settings, gutter);
-
   @if ($count) {
     $gutter: $gutter * $columncount / $count;
     $columncount: $count;
   }
-
   @include flegrix-grid() {
     display: grid;
     grid-template-columns: repeat($columncount, 1fr);
     grid-column-gap: $gutter;
   }
-
   @include flegrix-felxbox() {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
   }
-
   @if(map-get($flegrix-grid-settings, debug)) {
     background-image: url("data:image/svg+xml;charset=utf8,#{flegrix-url-encode(flegrix-background-svg($columncount))}");
     // IE10+
     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-      @include flegrix-background-gradient($columncount); // hack for IE and edge
+       @include flegrix-background-gradient($columncount); // hack for IE and edge
     }
     background-size: 100% 100%;
     background-position: center 0;
@@ -86,49 +81,39 @@ $flegrix-grid-settings: $flegrix-grid-default;
 }
 
 // return from a shorthand tree values; from, to, context
-
 // flegrix-parse(1) ==> $from: 1, $to: 1, $context: 12 (flegrix-grid setting)
 // flegrix-parse(1 of 4) ==> $from: 1, $to: 1, $context: 4
 // flegrix-parse(1 to 2) ==> $from: 1, $to: 2, $context: 12 (flegrix-grid setting)
 // flegrix-parse(1 to 2 of 4) ==> $from: 1, $to: 2, $context: 4
 @function flegrix-parse($shorthand) {
-
   $from: 1;
   $to: 1;
   $context: map-get($flegrix-grid-settings, columns);
-
   @if (length($shorthand) == 1) {
     $to: $shorthand;
   }
-
   @if (length($shorthand) == 3 and index($shorthand, "of") == 2) {
-      $to: nth($shorthand, 1);
-      $context: nth($shorthand, 3);
+    $to: nth($shorthand, 1);
+    $context: nth($shorthand, 3);
   }
-
   @if (length($shorthand) == 3 and index($shorthand, "to") == 2) {
-      $from: nth($shorthand, 1);
-      $to: nth($shorthand, 3);
+    $from: nth($shorthand, 1);
+    $to: nth($shorthand, 3);
   }
-
   @if (length($shorthand) == 5 and index($shorthand, "to") == 2 and index($shorthand, "of") == 4) {
-      $from: nth($shorthand, 1);
-      $to: nth($shorthand, 3);
-      $context: nth($shorthand, 5);
+    $from: nth($shorthand, 1);
+    $to: nth($shorthand, 3);
+    $context: nth($shorthand, 5);
   }
-
   @return $from $to $context;
 }
 
 // gutter() = gutter(12)
 @function gutter($count: null) {
-
-    $context: map-get($flegrix-grid-settings, columns);
-
-    @if ($count) {
-      $context: $count;
-    }
-
+  $context: map-get($flegrix-grid-settings, columns);
+  @if ($count) {
+    $context: $count;
+  }
   @return map-get($flegrix-grid-settings, gutter) * map-get($flegrix-grid-settings, columns) / $context;
 }
 
@@ -136,25 +121,21 @@ $flegrix-grid-settings: $flegrix-grid-default;
 // get the width in %
 // span(4) == span(1 to 4 of 12)
 @function span($shorthand: 1) {
-
   $parsed: flegrix-parse($shorthand);
   $from: nth($parsed, 1);
   $to: nth($parsed, 2);
   $context: nth($parsed, 3);
-
   $colCount: $to - $from + 1;
-
   $totalColumnWidth: 100% - (gutter($context) * ($context - 1));
   $width: ($totalColumnWidth / $context * $colCount) + (gutter($context) * ($colCount - 1));
   @return $width;
 }
 
+
 // flegrix-push(4) == flegrix-push(4 of 12)
 @mixin flegrix-push($shorthand: 1) {
-
   $parsed: flegrix-parse($shorthand);
   $context: nth($parsed, 3);
-
   margin-left: span($shorthand) + gutter($context);
 }
 
@@ -164,7 +145,7 @@ $flegrix-grid-settings: $flegrix-grid-default;
   $push: null,
   $fg: 1,
   $fs: 1
-){
+) {
 
   $parsed: flegrix-parse($shorthand);
   $from: nth($parsed, 1);
@@ -199,6 +180,7 @@ $flegrix-grid-settings: $flegrix-grid-default;
   }
   @return $string;
 }
+
 
 @function flegrix-url-encode($string) {
   $map: (
@@ -237,7 +219,6 @@ $flegrix-grid-settings: $flegrix-grid-default;
   @for $i from 1 through $columns {
      @if $i != $columns{
       $x: $x + span(1 of $columns);
-
       $values: $values + ", #{$color} #{$x}";
       $values: $values + ", #{$transparent} #{$x}";
       $x: $x + gutter($columns);
@@ -254,25 +235,22 @@ $flegrix-grid-settings: $flegrix-grid-default;
 }
 
 
-
 @function flegrix-background-svg($columns) {
   $color: rgba(255,0,0,0.07);
   $lineColor: rgba(128,0,0,0.05);
-
   $width: span(1 of $columns);
   $gutter: gutter($columns);
-
   $style: "<#{'style'}><![CDATA["; // fix to have it run in codepen.io
   $style: $style + "line {";
   $style: $style + " stroke: #{$lineColor};";
   $style: $style + " stroke-width: 1;";
   $style: $style + "} ";
   $style: $style + "]]></style>";
-  $x: 0%;
+  $x: 0;
   $svg: "";
   @for $i from 1 through $columns {
     // draw column
-    @if(map-get($flegrix-grid-settings, debug-container-column-background)){
+    @if(map-get($flegrix-grid-settings, debug-container-column-background)) {
       $svg: $svg + "<rect x='#{$x}' width='#{$width}' height='100%' />";
     }
     // draw midline of column
