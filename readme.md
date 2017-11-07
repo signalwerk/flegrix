@@ -68,7 +68,7 @@ $myGutterVar: gutter($context);
 }
 
 .left-B-push {
-  @include col(5 to 8 of 8, $push: 4);
+  @include col(5 to 8 of 8, $push: 4); // push is used for flexbox fallback
 }
 ```
 
@@ -114,7 +114,7 @@ Set the column width with flexbox and grid. `$columncount` defines in what colum
 
 ```SCSS
 .col4of12 {
-  @include col(4); // == @include col(1 zo 4);
+  @include col(4); // == @include col(1 to 4);
 }
 
 .col8of12 {
@@ -131,11 +131,11 @@ Returns the width of the column. `$columncount` is the number of columns to span
 #### Example
 To set the `width` to three columns;
 ```SCSS
-width: span(3);
+width: span(3); // == span(1 to 3)
 ```
 or in a nested container where the container is 4 columns wide
 ```SCSS
-width: span(1 to 3 of 4); // parent object = width: span(4);
+width: span(1 to 3 of 4); // parent object has width of 4 columns
 ```
 
 ### `gutter($context)`
