@@ -126,7 +126,7 @@ Set the column width. `$columncount` defines in what column the grid starts/ends
   @include col(1 to 2 of 4); // if it's in a container(4)
 }
 
-.col2of4center {
+.col2of4-push {
   @include col(2 to 3 of 4, $push: 1); // if it's in a container(4), starts on second column
 }
 ```
