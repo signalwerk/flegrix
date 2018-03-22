@@ -4,6 +4,8 @@ A tiny grid system to work with css-grid. By default it also includes a flexbox 
 
 The system holds basically the following helpers;
 
+### SCSS
+
 ```SCSS
 // mixins
 @include container($columncount);
@@ -13,6 +15,27 @@ The system holds basically the following helpers;
 $myColumnVar: span($columncount);
 $myGutterVar: gutter($context);
 ```
+
+### post-css (BETA)
+```CSS
+
+@mixin flegrix container $columncount gutter $gutter
+@mixin flegrix col $from to $to push $push gutter $gutter
+
+```
+
+Example
+```CSS
+/* simple */
+@mixin flegrix container
+@mixin flegrix col 1 to 4
+
+/* complex */
+@mixin flegrix container 10 gutter 4.5%
+@mixin flegrix col 4 to 5 push 3 gutter 4.5%
+
+```
+
 
 ## Use (simple)
 
