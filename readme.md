@@ -27,12 +27,18 @@ $myGutterVar: gutter($context);
 Example
 ```CSS
 /* simple */
-@mixin flegrix container
-@mixin flegrix col 1 to 4
+@mixin flegrix container {
+  columns: 6;   /* default: 12 */
+  gutter: 2%;   /* default: 3% */
+};
 
-/* complex */
-@mixin flegrix container 10 gutter 4.5%
-@mixin flegrix col 4 to 5 push 3 gutter 4.5%
+@mixin flegrix col {
+  from: 2;
+  to: 6;
+  of: 6;        /* default: 12 */
+  push: 2;      /* default: 0 */
+  gutter: 2%;   /* default: 3% */
+};
 
 ```
 
