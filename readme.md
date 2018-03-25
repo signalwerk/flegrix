@@ -30,6 +30,7 @@ Example
 @mixin flegrix container {
   columns: 6;   /* default: 12 */
   gutter: 2%;   /* default: 3% */
+  debug: true;  /* default: false */
 };
 
 @mixin flegrix col {
