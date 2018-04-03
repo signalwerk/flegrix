@@ -19,17 +19,19 @@ $myGutterVar: gutter($context);
 ### post-css (BETA)
 ```CSS
 @mixin flegrix container {
-  columns: 6;   /* default: 12 */
-  gutter: 2%;   /* default: 3% */
-  debug: true;  /* default: false */
+  columns: 6;   // default: 12
+  gutter: 2%;   // default: 3%
+  debug: true;  // default: false
+  context: 12;  // default: 12
 };
 
 @mixin flegrix col {
   from: 2;
   to: 6;
-  of: 6;        /* default: 12 */
-  push: 2;      /* default: 0 */
-  gutter: 2%;   /* default: 3% */
+  of: 6;        // default: 12
+  push: 2;      // default: 0
+  gutter: 2%;   // default: 3%
+  context: 12;  // default: 12
 };
 ```
 
