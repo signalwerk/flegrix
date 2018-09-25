@@ -20,6 +20,9 @@
   ],
   "author": "Stefan Huber",
   "license": "MIT",
+  "dependencies": {
+    "postcss": "^7.0.2"
+  },
   "devDependencies": {
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^3.1.0",

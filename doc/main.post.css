@@ -1,0 +1,91 @@
+@flegrix set {
+  debug: true;
+}
+
+@flegrix set complex {
+  debug: true;
+  columns: 8;
+  context: 12;
+}
+
+/* Use (simple) */
+
+.container {
+  @flegrix container;
+}
+
+.left {
+  @flegrix col {
+    from: 1;
+    to: 8;
+  }
+}
+
+.right {
+  @flegrix col {
+    from: 9;
+    to: 12;
+  }
+}
+
+/* Use (complex) */
+
+.complex {
+  @flegrix container complex;
+}
+
+.left-A {
+  @flegrix col complex {
+    from: 1;
+    to: 4;
+  }
+}
+
+.left-B {
+  @flegrix col complex {
+    from: 5;
+    to: 8;
+  }
+}
+
+.left-B-push {
+  @flegrix col complex {
+    from: 5;
+    to: 8;
+    push: 4;
+  }
+}
+
+/* to have a better view on the architecture */
+
+.container {
+  background-color: rgba(255, 255, 102, 0.15);
+}
+
+.info {
+  @flegrix col {
+    from: 1;
+    to: 12;
+  }
+  background-color: rgba(102, 102, 102, 0.15);
+}
+
+.complex .info {
+  @flegrix col complex {
+    from: 1;
+    to: 8;
+  }
+}
+
+.left,
+.right {
+  margin-top: 2rem;
+  background-color: rgba(255, 0, 102, 0.15);
+}
+
+.left-A,
+.left-B,
+.left-B-push {
+  margin-top: 2rem;
+  background-color: rgba(102, 255, 102, 0.5);
+}

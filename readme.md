@@ -4,7 +4,7 @@ A tiny grid system to work with css-grid. By default it also includes a flexbox 
 
 The system holds basically the following helpers;
 
-### SCSS
+## SCSS
 
 ```SCSS
 // mixins
@@ -16,41 +16,9 @@ $myColumnVar: span($columncount);
 $myGutterVar: gutter($context);
 ```
 
-### post-css (BETA)
-```CSS
-@mixin flegrix container {
-  columns: 6;   // default: 12
-  gutter: 2%;   // default: 3%
-  debug: true;  // default: false
-  context: 12;  // default: 12
-};
-
-@mixin flegrix col {
-  from: 2;
-  to: 6;
-  of: 6;        // default: 12
-  push: 2;      // default: 0
-  gutter: 2%;   // default: 3%
-  context: 12;  // default: 12
-};
-```
-
-Example
-```CSS
-/* simple 12 col example*/
-@mixin flegrix container {
-  debug: true;  /* default: false */
-};
-
-@mixin flegrix col {
-  from: 1;
-  to: 6;
-};
-
-```
 
 
-## Use (simple)
+### Use (simple)
 
 ```HTML
 <div class="container">
@@ -74,7 +42,7 @@ Example
 }
 ```
 
-## Use (complex)
+### Use (complex)
 
 ```HTML
 <div class="container">
@@ -108,7 +76,7 @@ Example
 }
 ```
 
-## Installation
+### Installation
 Run `npm install --save-dev flegrix` then include in your SCSS:
 
 ```SCSS
@@ -116,7 +84,7 @@ Run `npm install --save-dev flegrix` then include in your SCSS:
 ```
 
 
-## Settings
+### Settings
 If you like to overwrite the default settings define a map called `$flegrix-grid`.
 
 ```SCSS
@@ -133,10 +101,10 @@ $flegrix-grid: (
 );
 ```
 
-## Mixins
+### Mixins
 
 
-### `container($columncount: 12)`
+#### `container($columncount: 12)`
 Set the container to hold columns. `$columncount` defines the count of columns.
 
 ```SCSS
@@ -145,7 +113,7 @@ Set the container to hold columns. `$columncount` defines the count of columns.
 }
 ```
 
-### `col($columncount, $push: 0)`
+#### `col($columncount, $push: 0)`
 Set the column width. `$columncount` defines in what column the grid starts/ends (necessary for grid) and `$push` adds a `margin-left` to the column (necessary for flexbox fallback).
 
 ```SCSS
@@ -168,13 +136,13 @@ Set the column width. `$columncount` defines in what column the grid starts/ends
 ```
 
 
-## Functions
+### Functions
 
-### `span($columncount)`
+#### `span($columncount)`
 Returns the width of the column. `$columncount` is the number of columns to span.  
 `$columncount` defines the width (`1 to 4`, `5 to 8`, ...) and can get a context of the parent element (`1 to 4 of 12`, `4 to 6 of 8`, ...).
 
-#### Example
+##### Example
 To set the `width` to three columns;
 ```SCSS
 width: span(3); // == span(1 to 3)
@@ -184,10 +152,10 @@ or in a nested container where the container is 4 columns wide
 width: span(1 to 3 of 4); // parent object is container(4)
 ```
 
-### `gutter($context)`
+#### `gutter($context)`
 Returns the width of the gutter in a `$context`.
 
-#### Example
+##### Example
 To set a `padding-right` to the gutter-width;
 ```SCSS
 padding-right: gutter();
@@ -199,5 +167,40 @@ padding-right: gutter(4); // parent object is container(4)
 
 
 
-## Status
+## Post-css (BETA)
+```CSS
+@flegrix set small {
+  debug: true;     // default: false
+  columns: 6;      // default: 12
+  gutter: 2%;      // default: 3%
+}
+
+@flegrix container small {
+  columns: 6;      // default: (defined in set)
+};
+
+@flegrix col small {
+  from: 2;       // default: 1
+  to: 6;         // default: 2
+  push: 2;       // default: 0
+};
+```
+
+Example
+```CSS
+/* simple 12 col example*/
+@flegrix container {
+  debug: true;  /* default: false */
+};
+
+@flegrix col {
+  from: 1;
+  to: 6;
+};
+
+```
+
+
+
+### Status
 [![Build Status](https://travis-ci.org/signalwerk/flegrix.svg?branch=master)](https://travis-ci.org/signalwerk/flegrix)
