@@ -34,3 +34,4 @@ exports.default = postcss.plugin("flegrix", () => root => {
     atRule.remove();
   });
 });
+module.exports = exports['default'];
