@@ -26,16 +26,17 @@ class Flegrix {
     });
 
     root.walkDecls("gutter", decl => {
-      this.presets[preset].gutter = parseFloat(
-        `${decl.value}`.replace("%", ""),
-        10
-      );
-    });
-
-    this.presets[preset].context = this.presets[preset].columns;
-
-    root.walkDecls("context", decl => {
-      this.presets[preset].context = parseFloat(decl.value, 10);
+      // if the gutter is a reference to an other grid
+      if (this.presets[decl.value]) {
+        this.presets[preset].gutter =
+          (this.presets[decl.value].gutter / this.presets[preset].columns) *
+          this.presets[decl.value].columns;
+      } else {
+        this.presets[preset].gutter = parseFloat(
+          `${decl.value}`.replace("%", ""),
+          10
+        );
+      }
     });
   }
 
@@ -50,8 +51,7 @@ class Flegrix {
       push: 0,
       append: 0,
       gutter: this.presets[preset].gutter,
-      columns: this.presets[preset].columns,
-      context: this.presets[preset].context || this.presets[preset].columns
+      columns: this.presets[preset].columns
     };
 
     root.walkDecls("from", decl => {
@@ -92,8 +92,7 @@ class Flegrix {
           from: 1,
           to: config.push,
           columns: config.columns,
-          gutter: config.gutter,
-          context: config.context
+          gutter: config.gutter
         })}%`
       });
     }
@@ -104,8 +103,7 @@ class Flegrix {
           from: 1,
           to: config.append,
           columns: config.columns,
-          gutter: config.gutter,
-          context: config.context
+          gutter: config.gutter
         })}%`
       });
     }
@@ -113,11 +111,11 @@ class Flegrix {
   }
 
   append(config) {
-    return this.span(config) + this.gutter(config);
+    return this.span(config) + config.gutter;
   }
 
   push(config) {
-    return this.span(config) + this.gutter(config);
+    return this.span(config) + config.gutter;
   }
 
   // get the width
@@ -125,18 +123,12 @@ class Flegrix {
   span(config) {
     let { from, to, columns, gutter } = config;
     let colCount = to - from + 1;
-    let calcGutter = this.gutter(config);
-    let totalColumnWidth = 100 - calcGutter * (columns - 1);
+    let totalColumnWidth = 100 - gutter * (columns - 1);
 
     let width =
-      (totalColumnWidth / columns) * colCount + calcGutter * (colCount - 1);
+      (totalColumnWidth / columns) * colCount + gutter * (colCount - 1);
 
     return width;
-  }
-
-  gutter(config) {
-    let { columns, gutter, context } = config;
-    return (gutter / columns) * context;
   }
 
   container(preset, root) {
@@ -236,12 +228,11 @@ class Flegrix {
   }
 
   svg(preset, config) {
-    let { columns, gutter, context } = config;
+    let { columns, gutter } = config;
 
     let color = this.toColor(preset); //"rgba(255,0,0,0.07)";
     let lineColor = "rgba(128,0,0,0.05)";
-    let width = this.span({ from: 1, to: 1, columns, gutter, context });
-    let calcGutter = this.gutter(config);
+    let width = this.span({ from: 1, to: 1, columns, gutter });
 
     let style = `<style><![CDATA[
             line {
@@ -260,9 +251,9 @@ class Flegrix {
       // draw midline of gutter if not last column
       if (i != columns) {
         x += width;
-        content += `<line x1='${x + calcGutter / 2}%' y1='0' x2='${x +
-          calcGutter / 2}%' y2='100%' />`;
-        x += calcGutter;
+        content += `<line x1='${x + gutter / 2}%' y1='0' x2='${x +
+          gutter / 2}%' y2='100%' />`;
+        x += gutter;
       }
     }
 

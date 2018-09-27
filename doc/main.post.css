@@ -1,28 +1,28 @@
-@flegrix set {
+@flegrix set normal {
   debug: true;
 }
 
 @flegrix set complex {
   debug: true;
   columns: 8;
-  context: 12;
+  gutter: 'normal';
 }
 
 /* Use (simple) */
 
 .container {
-  @flegrix container;
+  @flegrix container normal;
 }
 
 .left {
-  @flegrix col {
+  @flegrix col normal {
     from: 1;
     to: 8;
   }
 }
 
 .right {
-  @flegrix col {
+  @flegrix col normal {
     from: 9;
     to: 12;
   }
