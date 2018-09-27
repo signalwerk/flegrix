@@ -5,8 +5,7 @@
   "main": "flegrix.scss",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "publish-next": "npm version patch",
-    "publish": "npm publish",
+    "npm:next": "npm version patch && npm publish",
     "start": "./node_modules/.bin/gulp",
     "build": "./node_modules/.bin/gulp build"
   },

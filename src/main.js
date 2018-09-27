@@ -181,7 +181,7 @@ class Flegrix {
       css.push({
         prop: "background-image",
         value: `url("data:image/svg+xml;base64,${this.b64encode(
-          this.svg(config)
+          this.svg(preset, config)
         )}")`
       });
     }
@@ -204,10 +204,41 @@ class Flegrix {
     return base64.encode(string);
   }
 
-  svg(config) {
+  //https://gist.github.com/0x263b/2bdd90886c2036a1ad5bcf06d6e6fb37
+  toColor(name) {
+    let colors = [
+      "rgba(229, 28, 35, 0.07)",
+      "rgba(233, 30, 99, 0.07)",
+      "rgba(156, 39, 176, 0.07)",
+      "rgba(103, 58, 183, 0.07)",
+      "rgba(63, 81, 181, 0.07)",
+      "rgba(86, 119, 252, 0.07)",
+      "rgba(3, 169, 244, 0.07)",
+      "rgba(0, 188, 212, 0.07)",
+      "rgba(0, 150, 136, 0.07)",
+      "rgba(37, 155, 36, 0.07)",
+      "rgba(139, 195, 74, 0.07)",
+      "rgba(175, 180, 43, 0.07)",
+      "rgba(255, 152, 0, 0.07)",
+      "rgba(255, 87, 34, 0.07)",
+      "rgba(121, 85, 72, 0.07)",
+      "rgba(96, 125, 139, 0.07)"
+    ];
+
+    var hash = 0;
+    if (name.length === 0) return hash;
+    for (var i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+      hash = hash & hash;
+    }
+    hash = ((hash % colors.length) + colors.length) % colors.length;
+    return colors[hash];
+  }
+
+  svg(preset, config) {
     let { columns, gutter, context } = config;
 
-    let color = "rgba(255,0,0,0.07)";
+    let color = this.toColor(preset); //"rgba(255,0,0,0.07)";
     let lineColor = "rgba(128,0,0,0.05)";
     let width = this.span({ from: 1, to: 1, columns, gutter, context });
     let calcGutter = this.gutter(config);
