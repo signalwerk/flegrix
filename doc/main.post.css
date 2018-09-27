@@ -1,9 +1,12 @@
-@flegrix set normal {
+@flegrix {
   debug: true;
 }
 
+@flegrix set normal {
+  gutter: 2%;
+}
+
 @flegrix set complex {
-  debug: true;
   columns: 8;
   gutter: 'normal';
 }
