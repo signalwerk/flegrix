@@ -51,8 +51,9 @@
 .left-B-push {
   @flegrix col complex {
     from: 5;
-    to: 8;
+    to: 7;
     push: 4;
+    append: 1;
   }
 }
 

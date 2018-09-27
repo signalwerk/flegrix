@@ -51,9 +51,10 @@
 }
 
 .left-B-push {
+  margin-right: 13.0625%;
   margin-left: 52.25%;
-  max-width: 47.75%;
-  flex-basis: 47.75%;
+  max-width: 34.6875%;
+  flex-basis: 34.6875%;
   flex-shrink: 1;
   flex-grow: 1
 }

@@ -181,8 +181,9 @@ padding-right: gutter(4); // parent object is container(4)
 
 @flegrix col small {
   from: 2;       // default: 1
-  to: 6;         // default: 2
-  push: 2;       // default: 0
+  to: 5;         // default: 2
+  push: 1;       // default: 0
+  append: 1;     // default: 0
 };
 ```
 

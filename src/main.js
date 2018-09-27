@@ -48,6 +48,7 @@ class Flegrix {
       from: 1,
       to: 2,
       push: 0,
+      append: 0,
       gutter: this.presets[preset].gutter,
       columns: this.presets[preset].columns,
       context: this.presets[preset].context || this.presets[preset].columns
@@ -61,6 +62,9 @@ class Flegrix {
     });
     root.walkDecls("push", decl => {
       config.push = parseFloat(decl.value, 10);
+    });
+    root.walkDecls("append", decl => {
+      config.append = parseFloat(decl.value, 10);
     });
 
     let css = [];
@@ -93,7 +97,23 @@ class Flegrix {
         })}%`
       });
     }
+    if (config.append && config.append !== 0) {
+      css.push({
+        prop: "margin-right",
+        value: `${this.append({
+          from: 1,
+          to: config.append,
+          columns: config.columns,
+          gutter: config.gutter,
+          context: config.context
+        })}%`
+      });
+    }
     return css;
+  }
+
+  append(config) {
+    return this.span(config) + this.gutter(config);
   }
 
   push(config) {
