@@ -8,10 +8,15 @@ exports.default = postcss.plugin("flegrix", () => root => {
   root.walkAtRules("flegrix", atRule => {
     var params = atRule.params.replace(/[()]/g, "").split(/\s/, 2);
     var name = params[0];
-    var preset = params[1] || "default";
+    var preset = params[1] || "standard";
 
+    // general default
     if (!name) {
       flegrix.default(atRule);
+    }
+
+    if (name === "grid") {
+      flegrix.grid(preset, atRule);
     }
 
     if (name === "container") {
@@ -21,10 +26,6 @@ exports.default = postcss.plugin("flegrix", () => root => {
           atRule.parent.insertAfter(atRule, postcss.decl(item))
         );
       }
-    }
-
-    if (name === "set") {
-      flegrix.preset(preset, atRule);
     }
 
     if (name === "col") {

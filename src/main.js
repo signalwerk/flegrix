@@ -6,38 +6,66 @@ class Flegrix {
         debug: false,
         columns: 12,
         gutter: 3
+      },
+      standard: {
+        debug: false,
+        columns: 12,
+        gutter: 3
       }
     };
   }
 
-  preset(preset, root) {
-    this.presets[preset] = this.presets[preset] || {};
-    this.presets[preset].columns = this.presets[preset].columns || 12;
-    this.presets[preset].gutter = this.presets[preset].gutter || 3;
-
+  preset(root) {
+    let conf = {
+      debug: this.presets.default.debug,
+      columns: this.presets.default.columns,
+      gutter: this.presets.default.gutter
+    };
     root.walkDecls("debug", decl => {
       if (`${decl.value}`.toLowerCase().includes("true")) {
-        this.presets[preset].debug = true;
+        conf.debug = true;
+      } else {
+        conf.debug = false;
       }
     });
 
     root.walkDecls("columns", decl => {
-      this.presets[preset].columns = parseFloat(decl.value, 10);
+      conf.columns = parseFloat(decl.value, 10);
     });
 
     root.walkDecls("gutter", decl => {
+      let gutterValue = `${decl.value}`.replace(/["'%]/g, "");
+      conf.gutter = parseFloat(gutterValue, 10);
+    });
+
+    root.walkDecls("gutter", decl => {
+      let gutterValue = `${decl.value}`.replace(/["'%]/g, "");
       // if the gutter is a reference to an other grid
-      if (this.presets[decl.value]) {
-        this.presets[preset].gutter =
-          (this.presets[decl.value].gutter / this.presets[preset].columns) *
-          this.presets[decl.value].columns;
+      if (this.presets[gutterValue]) {
+        conf.gutter =
+          (this.presets[gutterValue].gutter / conf.columns) *
+          this.presets[gutterValue].columns;
       } else {
-        this.presets[preset].gutter = parseFloat(
-          `${decl.value}`.replace("%", ""),
-          10
-        );
+        conf.gutter = parseFloat(gutterValue, 10);
       }
     });
+
+    return conf;
+  }
+
+  default(root) {
+    let config = this.preset(root);
+    this.presets.default.debug = config.debug;
+    this.presets.default.columns = config.columns;
+    this.presets.default.gutter = config.gutter;
+  }
+
+  grid(preset, root) {
+    let config = this.preset(root);
+    this.presets[preset] = this.presets[preset] || {};
+    this.presets[preset].debug = config.debug;
+    this.presets[preset].columns = config.columns;
+    this.presets[preset].gutter = config.gutter;
   }
 
   col(preset, root) {

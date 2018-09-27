@@ -169,22 +169,29 @@ padding-right: gutter(4); // parent object is container(4)
 
 ## Post-css (BETA)
 ```CSS
-@flegrix set small {
-  debug: true;     // default: false
-  columns: 6;      // default: 12
-  gutter: 2%;      // default: 3%
+
+/* global settings */
+@flegrix {
+  debug: true;
 }
 
-@flegrix container small {
-  columns: 6;      // default: (defined in set)
-};
+/* setting for grid named 'small' */
+@flegrix grid small {
+  debug: true;     /* default: false */
+  columns: 6;      /* default: 12 */
+  gutter: 2%;      /* default: 3% */
+}
 
+/* container for grid 'small' */
+@flegrix container small
+
+/* column for grid 'small' */
 @flegrix col small {
-  from: 2;       // default: 1
-  to: 5;         // default: 2
-  push: 1;       // default: 0
-  append: 1;     // default: 0
-};
+  from: 2;       /* default: 1 */
+  to: 5;         /* default: 2 */
+  push: 1;       /* default: 0 */
+  append: 1;     /* default: 0 */
+}
 ```
 
 Example

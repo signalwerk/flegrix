@@ -2,17 +2,16 @@
   debug: true;
 }
 
-@flegrix set normal {
+@flegrix grid normal {
   gutter: 2%;
 }
 
-@flegrix set complex {
+@flegrix grid complex {
   columns: 8;
-  gutter: 'normal';
+  gutter: "normal";
 }
 
 /* Use (simple) */
-
 .container {
   @flegrix container normal;
 }
@@ -67,7 +66,7 @@
 }
 
 .info {
-  @flegrix col {
+  @flegrix col normal {
     from: 1;
     to: 12;
   }
