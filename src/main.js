@@ -99,11 +99,10 @@ class Flegrix {
 
     css.push({
       prop: "flex-grow",
-      value: 1
     });
     css.push({
       prop: "flex-shrink",
-      value: 1
+      value: "1"
     });
     css.push({
       prop: "flex-basis",
