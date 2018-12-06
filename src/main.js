@@ -5,12 +5,14 @@ class Flegrix {
       default: {
         debug: false,
         columns: 12,
-        gutter: 3
+        gutter: 3,
+        bgAlpha: '0.1'
       },
       standard: {
         debug: false,
         columns: 12,
-        gutter: 3
+        gutter: 3,
+        bgAlpha: '0.1'
       }
     };
   }
@@ -19,7 +21,8 @@ class Flegrix {
     let conf = {
       debug: this.presets.default.debug,
       columns: this.presets.default.columns,
-      gutter: this.presets.default.gutter
+      gutter: this.presets.default.gutter,
+      bgAlpha: this.presets.default.bgAlpha
     };
     root.walkDecls("debug", decl => {
       if (`${decl.value}`.toLowerCase().includes("true")) {
@@ -50,6 +53,9 @@ class Flegrix {
       }
     });
 
+    root.walkDecls("debug-bg-alpha", decl => {
+      conf.bgAlpha = parseFloat(decl.value, 10);
+    });
     return conf;
   }
 
@@ -58,6 +64,7 @@ class Flegrix {
     this.presets.default.debug = config.debug;
     this.presets.default.columns = config.columns;
     this.presets.default.gutter = config.gutter;
+    this.presets.default.bgAlpha = config.bgAlpha;
   }
 
   grid(preset, root) {
@@ -66,6 +73,7 @@ class Flegrix {
     this.presets[preset].debug = config.debug;
     this.presets[preset].columns = config.columns;
     this.presets[preset].gutter = config.gutter;
+    this.presets[preset].bgAlpha = config.bgAlpha;
   }
 
   col(preset, root) {
@@ -99,6 +107,7 @@ class Flegrix {
 
     css.push({
       prop: "flex-grow",
+      value: "1"
     });
     css.push({
       prop: "flex-shrink",
@@ -224,24 +233,24 @@ class Flegrix {
   }
 
   //https://gist.github.com/0x263b/2bdd90886c2036a1ad5bcf06d6e6fb37
-  toColor(name) {
+  toColor(name, bgAlpha) {
     let colors = [
-      "rgba(229, 28, 35, 0.07)",
-      "rgba(233, 30, 99, 0.07)",
-      "rgba(156, 39, 176, 0.07)",
-      "rgba(103, 58, 183, 0.07)",
-      "rgba(63, 81, 181, 0.07)",
-      "rgba(86, 119, 252, 0.07)",
-      "rgba(3, 169, 244, 0.07)",
-      "rgba(0, 188, 212, 0.07)",
-      "rgba(0, 150, 136, 0.07)",
-      "rgba(37, 155, 36, 0.07)",
-      "rgba(139, 195, 74, 0.07)",
-      "rgba(175, 180, 43, 0.07)",
-      "rgba(255, 152, 0, 0.07)",
-      "rgba(255, 87, 34, 0.07)",
-      "rgba(121, 85, 72, 0.07)",
-      "rgba(96, 125, 139, 0.07)"
+      `rgba(229, 28, 35, ${bgAlpha})`,
+      `rgba(233, 30, 99, ${bgAlpha})`,
+      `rgba(156, 39, 176, ${bgAlpha})`,
+      `rgba(103, 58, 183, ${bgAlpha})`,
+      `rgba(63, 81, 181, ${bgAlpha})`,
+      `rgba(86, 119, 252, ${bgAlpha})`,
+      `rgba(3, 169, 244, ${bgAlpha})`,
+      `rgba(0, 188, 212, ${bgAlpha})`,
+      `rgba(0, 150, 136, ${bgAlpha})`,
+      `rgba(37, 155, 36, ${bgAlpha})`,
+      `rgba(139, 195, 74, ${bgAlpha})`,
+      `rgba(175, 180, 43, ${bgAlpha})`,
+      `rgba(255, 152, 0, ${bgAlpha})`,
+      `rgba(255, 87, 34, ${bgAlpha})`,
+      `rgba(121, 85, 72, ${bgAlpha})`,
+      `rgba(96, 125, 139, ${bgAlpha})`
     ];
 
     var hash = 0;
@@ -255,9 +264,8 @@ class Flegrix {
   }
 
   svg(preset, config) {
-    let { columns, gutter } = config;
-
-    let color = this.toColor(preset); //"rgba(255,0,0,0.07)";
+    let { columns, gutter, bgAlpha } = config;
+    let color = this.toColor(preset, bgAlpha);
     let lineColor = "rgba(128,0,0,0.05)";
     let width = this.span({ from: 1, to: 1, columns, gutter });
 

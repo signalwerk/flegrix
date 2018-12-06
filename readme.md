@@ -173,13 +173,16 @@ padding-right: gutter(4); // parent object is container(4)
 /* global settings */
 @flegrix {
   debug: true;
+  
 }
 
 /* setting for grid named 'small' */
 @flegrix grid small {
-  debug: true;     /* default: false */
-  columns: 6;      /* default: 12 */
-  gutter: 2%;      /* default: 3% */
+  debug: true;         /* default: false */
+  columns: 6;          /* default: 12 */
+  gutter: 2%;          /* default: 3% */
+  debug-bg-alpha: 0.5; /* default: 0.1 */
+
 }
 
 /* container for grid 'small' */
