@@ -1,18 +1,19 @@
+const standards = {
+  debug: false,
+  columns: 12,
+  gutter: 3,
+  bgAlpha: "0.1"
+};
+
 class Flegrix {
   constructor() {
     this.mode = "flexbox";
     this.presets = {
       default: {
-        debug: false,
-        columns: 12,
-        gutter: 3,
-        bgAlpha: '0.1'
-      },
-      standard: {
-        debug: false,
-        columns: 12,
-        gutter: 3,
-        bgAlpha: '0.1'
+        debug: standards.debug,
+        columns: standards.columns,
+        gutter: standards.gutter,
+        bgAlpha: standards.bgAlpha
       }
     };
   }

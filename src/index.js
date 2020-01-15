@@ -1,6 +1,6 @@
 var postcss = require("postcss");
 
-var Flegrix = require("./src/main");
+var Flegrix = require("./main");
 var flegrix = new Flegrix();
 
 exports.__esModule = true;
@@ -8,7 +8,7 @@ exports.default = postcss.plugin("flegrix", () => root => {
   root.walkAtRules("flegrix", atRule => {
     var params = atRule.params.replace(/[()]/g, "").split(/\s/, 2);
     var name = params[0];
-    var preset = params[1] || "standard";
+    var preset = params[1] || "default";
 
     // general default
     if (!name) {

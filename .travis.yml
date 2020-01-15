@@ -9,6 +9,6 @@ env:
   global:
   - ENCRYPTION_LABEL: "827ecb61d9cd"
   - COMMIT_AUTHOR_EMAIL: "sh@signalwerk.ch"
-  - DEPLOY_DIR: "public"
+  - DEPLOY_DIR: "doc"
   - SOURCE_BRANCH: "master"
   - TARGET_BRANCH: "gh-pages"

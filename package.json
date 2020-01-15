@@ -1,13 +1,11 @@
 {
   "name": "flegrix",
-  "version": "0.1.18",
+  "version": "0.2.0",
   "description": "tiny grid system for flexbox",
-  "main": "flegrix.scss",
+  "main": "./src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "npm:next": "npm version patch && npm publish",
-    "start": "./node_modules/.bin/gulp",
-    "build": "./node_modules/.bin/gulp build"
+    "build": "node ./build/index.js",
+    "test": "jest --coverage && eslint-ci *.js"
   },
   "repository": {
     "type": "git",
@@ -20,19 +18,55 @@
   "author": "Stefan Huber",
   "license": "MIT",
   "dependencies": {
-    "postcss": "^7.0.2"
+    "postcss": "^7.0.21"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-autoprefixer": "^3.1.0",
-    "gulp-cssnano": "^2.1.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.1.1",
-    "gulp-sourcemaps": "^1.6.0",
-    "normalize.css": "^4.2.0"
+    "@logux/eslint-config": "^34.0.0",
+    "clean-publish": "^1.1.2",
+    "eslint": "^6.6.0",
+    "eslint-ci": "^1.0.0",
+    "eslint-config-postcss": "^3.0.7",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-es5": "^1.4.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^23.0.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-prefer-let": "^1.0.1",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-security": "^1.4.0",
+    "eslint-plugin-standard": "^4.0.1",
+    "eslint-plugin-unicorn": "^12.1.0",
+    "jest": "^24.9.0"
   },
   "bugs": {
     "url": "https://github.com/signalwerk/flegrix/issues"
   },
-  "homepage": "https://github.com/signalwerk/flegrix#readme"
+  "homepage": "https://github.com/signalwerk/flegrix#readme",
+  "jest": {
+    "coverageThreshold": {
+      "global": {
+        "statements": 100
+      }
+    },
+    "testEnvironment": "node"
+  },
+  "files": [
+    "/src/*"
+  ],
+  "eslintConfig": {
+    "extends": "eslint-config-postcss/es5",
+    "rules": {
+      "func-style": "off"
+    },
+    "overrides": [
+      {
+        "files": [
+          "*.test.js"
+        ],
+        "rules": {
+          "jest/expect-expect": "off"
+        }
+      }
+    ]
+  }
 }
