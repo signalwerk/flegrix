@@ -7,7 +7,7 @@ script:
 env:
   global:
   - COMMIT_AUTHOR_EMAIL: "sh@signalwerk.ch"
-  - DEPLOY_DIR: "build"
+  - DEPLOY_DIR: "public"
 branches:
   only:
   - master
