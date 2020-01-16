@@ -55,7 +55,7 @@ The default grid has 12 columns with 3% gutter between the columns. By default t
 ```HTML
 <div class="container">
   <!-- 12 column container -->
-  <div class="info"><h4>12 column container</h4></div> <div class="left">8 columns wide</div>
+  <div class="left">8 columns wide</div>
   <div class="right">4 columns wide, start in column 9</div>
 </div>
 ```

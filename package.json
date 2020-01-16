@@ -4,7 +4,7 @@
   "description": "tiny grid system for flexbox",
   "main": "./src/index.js",
   "scripts": {
-    "build": "node ./build/index.js",
+    "build": "rm -rf ./public && mkdir ./public && node ./build/index.js && cp ./doc/* ./public",
     "test": "jest --coverage && eslint-ci *.js"
   },
   "repository": {
