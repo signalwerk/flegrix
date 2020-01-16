@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/signalwerk/flegrix.svg?branch=master)](https://travis-ci.org/signalwerk/flegrix)
+
 # Flegrix
 
 A tiny grid system to work with flexbox-grids build for PostCSS.
@@ -148,7 +150,3 @@ The default grid has 12 columns with 3% gutter between the columns. By default t
   }
 }
 ```
-
-### Status
-
-[![Build Status](https://travis-ci.org/signalwerk/flegrix.svg?branch=master)](https://travis-ci.org/signalwerk/flegrix)
