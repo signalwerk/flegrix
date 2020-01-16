@@ -2,3 +2,5 @@
 /node_modules
 /public
 travis/.ssh/id_rsa
+ci/.ssh/id_rsa
+ci/.ssh/secret.key
