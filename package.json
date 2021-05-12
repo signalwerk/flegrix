@@ -18,7 +18,7 @@
   "author": "Stefan Huber",
   "license": "MIT",
   "dependencies": {
-    "postcss": "^7.0.21"
+    "postcss": "^8.2.10"
   },
   "devDependencies": {
     "@logux/eslint-config": "^34.0.0",
